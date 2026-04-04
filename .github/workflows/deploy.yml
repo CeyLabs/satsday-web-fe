@@ -3,8 +3,6 @@ name: Deploy to Cloudflare Pages
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
 
 jobs:
   deploy:
@@ -12,10 +10,9 @@ jobs:
     name: Deploy
     steps:
       - uses: actions/checkout@v4
-
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: 82c5ee4b5bf756e6658c8d9807d21592
           command: pages deploy . --project-name=satsday-web-fe --branch=main

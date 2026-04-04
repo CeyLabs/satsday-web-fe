@@ -2,48 +2,42 @@
 
 Frontend for [sats.day](https://sats.day) — CAPTCHA solving marketplace on Bitcoin Lightning.
 
-## Structure
+## Pages
 
-```
-index.html        Landing page (marketing)
-app/
-  index.html      Solver app — Telegram Login + CAPTCHA queue + BTCPay deposit
-```
+| Path         | Description                                      |
+|--------------|--------------------------------------------------|
+| `/`          | Landing page (landing page for buyers + solvers) |
+| `/app/`      | Solver app — TG login, CAPTCHA queue, earnings   |
 
 ## Stack
 
-- Pure HTML/CSS/JS — zero build step, zero dependencies
-- Deployed to Cloudflare Pages at `sats.day`
-- Fonts: JetBrains Mono + Outfit (Google Fonts)
-- Auth: Telegram Login Widget → session token via api.sats.day
+- Pure HTML/CSS/JS — zero build step, no dependencies
+- Cloudflare Pages (auto-deploy on push via GitHub Actions)
+- Google Fonts: JetBrains Mono + Outfit
 
-## App features
+## Deploy
 
-- **Telegram Login** — one-click auth via `@bitcoindeepabot` widget
-- **CAPTCHA solver** — continuous queue of tasks, 30s timer per task
-- **Live balance** — real-time sats balance in nav
-- **BTCPay deposit** — Lightning invoice QR for adding credits
-- **Activity feed** — recent solve history with accuracy tracking
-- **Withdraw** — via `/withdraw` in `@bitcoindeepabot`
+Push to `main` → GitHub Actions → Cloudflare Pages auto-deploy.
 
-## GitHub Actions (auto-deploy on push)
+First-time setup: add `CLOUDFLARE_API_TOKEN` as a GitHub Actions secret.
+The Pages project `satsday-web-fe` is created automatically on first deploy.
 
-Add these secrets to the repo (Settings → Secrets → Actions):
+## App flow
 
-| Secret                  | Value                              |
-|-------------------------|------------------------------------|
-| CLOUDFLARE_API_TOKEN    | CF API token with Pages:Edit       |
-| CLOUDFLARE_ACCOUNT_ID   | 82c5ee4b5bf756e6658c8d9807d21592  |
+1. User visits `/app/` → Telegram Login Widget
+2. Authenticates via @bitcoindeepabot
+3. Dashboard: balance, accuracy, solved count
+4. "Start Solving" → fetches tasks from `api.sats.day/solver/task`
+5. Solve image/text CAPTCHAs → earn sats instantly
+6. "Add Credits" → BTCPay Lightning invoice for buyers
+7. Withdraw via `/withdraw` in @bitcoindeepabot
 
-On first deploy, the Pages project `satsday-web-fe` is auto-created.
+## Environment
 
-## Custom domain (sats.day)
-
-1. CF Dashboard → Pages → satsday-web-fe → Custom domains
-2. Add `sats.day` and `www.sats.day`
-3. CF will auto-configure DNS if sats.day is on Cloudflare
+The app hits `https://api.sats.day` directly from the browser.
+No server-side rendering — fully static.
 
 ## Related
 
 - Backend API: [satsday-api-be](https://github.com/CeyLabs/satsday-api-be)
-- API base: `https://api.sats.day`
+- Telegram bot: [@bitcoindeepabot](https://t.me/bitcoindeepabot)
