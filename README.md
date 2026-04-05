@@ -25,12 +25,12 @@ The Pages project `satsday-web-fe` is created automatically on first deploy.
 ## App flow
 
 1. User visits `/app/` → Telegram Login Widget
-2. Authenticates via @SatsDayBot
+2. Authenticates via @satsdaybot
 3. Dashboard: balance, accuracy, solved count
 4. "Start Solving" → fetches tasks from `api.sats.day/solver/task`
 5. Solve image/text CAPTCHAs → earn sats instantly
 6. "Add Credits" → BTCPay Lightning invoice for buyers
-7. Withdraw via `/withdraw` in @SatsDayBot
+7. Withdraw via `/withdraw` in @satsdaybot
 
 ## Environment
 
@@ -40,4 +40,4 @@ No server-side rendering — fully static.
 ## Related
 
 - Backend API: [satsday-api-be](https://github.com/CeyLabs/satsday-api-be)
-- Telegram bot: [@SatsDayBot](https://t.me/bitcoindeepabot)
+- Telegram bot: [@satsdaybot](https://t.me/satsdaybot)
