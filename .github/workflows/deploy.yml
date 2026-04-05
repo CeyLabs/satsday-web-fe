@@ -16,3 +16,16 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: 82c5ee4b5bf756e6658c8d9807d21592
           command: pages deploy . --project-name=satsday-web-fe --branch=main
+      - name: Configure custom domains (sats.day + www.sats.day)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          for domain in sats.day www.sats.day; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+              -X POST \
+              "https://api.cloudflare.com/client/v4/accounts/82c5ee4b5bf756e6658c8d9807d21592/pages/projects/satsday-web-fe/domains" \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              -H "Content-Type: application/json" \
+              --data "{\"name\":\"$domain\"}")
+            echo "Domain $domain: HTTP $STATUS"
+          done
